@@ -2,7 +2,7 @@ import logging
 from models.messaging import Messaging
 from payloads.disband_sync_information_payload import DisbandSyncInformationPayload
 
-class DisbandActionDsbandMacSync:
+class DisbandActionDisbandMacSync:
     def __init__(self, config, topic):
         self.messenger = Messaging(config, topic, self.action)
         self.messenger.loop_start()

@@ -317,6 +317,8 @@ components:
       properties:
         data:
           type: number
+        disbandMac:
+          type: string
         sentAt:
           $ref: '#/components/schemas/sentAt'
     disbandLightningInformationPayload:
@@ -330,11 +332,15 @@ components:
           type: number
         blueLightning:
           type: number
+        disbandMac:
+          type: string
         sentAt:
           $ref: '#/components/schemas/sentAt'
     pairDisbandInformationPayload:
       type: object
       properties:
+        mac:
+          type: string
         model:
           type: string
         version:
@@ -346,6 +352,8 @@ components:
     pairDisbeacInformationPayload:
       type: object
       properties:
+        mac:
+          type: string
         model:
           type: string
         version:
@@ -360,6 +368,8 @@ components:
         latitude:
           type: string
         longitude:
+          type: string
+        disbeacMac:
           type: string
         sentAt:
           $ref: '#/components/schemas/sentAt'
@@ -399,11 +409,11 @@ components:
       description: Date and time when the message was sent.
   parameters:
     disbandMac:
-      description: The ID of the disband.
+      description: The mac of the disband.
       schema:
         type: string
     disbeacMac:
-      description: The ID of the disbeac.
+      description: The mac of the disbeac.
       schema:
         type: string
     userId:

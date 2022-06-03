@@ -9,8 +9,10 @@ class DisbandMeasureInformationPayload(Entity):
     def __init__(
             self,
             data: float,
+            disbandMac: str,
             sentAt: float):
         self.data = data
+        self.disbandMac = disbandMac
         self.sentAt = sentAt
 
 

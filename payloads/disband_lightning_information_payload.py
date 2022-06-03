@@ -12,11 +12,13 @@ class DisbandLightningInformationPayload(Entity):
             redLightning: float,
             greenLightning: float,
             blueLightning: float,
+            disbandMac: str,
             sentAt: float):
         self.lightning = lightning
         self.redLightning = redLightning
         self.greenLightning = greenLightning
         self.blueLightning = blueLightning
+        self.disbandMac = disbandMac
         self.sentAt = sentAt
 
 

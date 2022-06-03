@@ -1,0 +1,426 @@
+asyncapi: 2.4.0
+info:
+  title: Disband - Disbeac MQTT API
+  version: 1.0.0
+  description: >
+    The Disband - disbeac API allows you to remotely manage the disband and
+    disbeac.
+
+    ### Features:
+
+    * Recieve real-time information about enviromental pressure, humidity,
+    lightning and noise
+
+    * Recieve real-time information about a particular person heart-rate
+
+    * Pair disband and disbeac with a particular app account
+
+    * Recieve real-time information about the location of a particular disbeac
+
+    * Synchronize the disband with the configuration provided by the app
+
+    * Get to know if a particular disbeac is active
+
+    * Make vibrate the disband
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+  production:
+    url: 54.170.150.183:{port}
+    protocol: mqtt
+    description: Test broker
+    variables:
+      port:
+        description: Secure connection (TLS) is available through port 1883.
+        default: '1883'
+        enum:
+          - '1883'
+          - '80'
+defaultContentType: application/json
+channels:
+  disbands/action/{disbandMac}/ambient-noise:
+    description: The topic on which measure values may be produced and consumed.
+    parameters:
+      disbandMac:
+        $ref: '#/components/parameters/disbandMac'
+    subscribe:
+      summary: Inform about environmental conditions of a particular band.
+      operationId: receiveDisbandAmbientNoise
+      traits:
+        - $ref: '#/components/operationTraits/mqtt'
+      message:
+        $ref: '#/components/messages/disbandMeasureInformation'
+  disbands/action/{disbandMac}/heart-rate:
+    description: The topic on which measure values may be produced and consumed.
+    parameters:
+      disbandMac:
+        $ref: '#/components/parameters/disbandMac'
+    subscribe:
+      summary: Inform about environmental conditions of a particular band.
+      operationId: receiveDisbandHeartRate
+      traits:
+        - $ref: '#/components/operationTraits/mqtt'
+      message:
+        $ref: '#/components/messages/disbandMeasureInformation'
+  disbands/action/{disbandMac}/humidity:
+    description: The topic on which measure values may be produced and consumed.
+    parameters:
+      disbandMac:
+        $ref: '#/components/parameters/disbandMac'
+    subscribe:
+      summary: Inform about environmental conditions of a particular band.
+      operationId: receiveDisbandHumidity
+      traits:
+        - $ref: '#/components/operationTraits/mqtt'
+      message:
+        $ref: '#/components/messages/disbandMeasureInformation'
+  disbands/action/{disbandMac}/lightning:
+    description: The topic on which measure values may be produced and consumed.
+    parameters:
+      disbandMac:
+        $ref: '#/components/parameters/disbandMac'
+    subscribe:
+      summary: Inform about environmental conditions of a particular band.
+      operationId: receiveDisbandLightning
+      traits:
+        - $ref: '#/components/operationTraits/mqtt'
+      message:
+        $ref: '#/components/messages/disbandLightningInformation'
+  disbands/action/{disbandMac}/oxygen:
+    description: The topic on which measure values may be produced and consumed.
+    parameters:
+      disbandMac:
+        $ref: '#/components/parameters/disbandMac'
+    subscribe:
+      summary: Inform about environmental conditions of a particular band.
+      operationId: receiveDisbandOxygen
+      traits:
+        - $ref: '#/components/operationTraits/mqtt'
+      message:
+        $ref: '#/components/messages/disbandMeasureInformation'
+  disbands/action/{disbandMac}/pressure:
+    description: The topic on which measure values may be produced and consumed.
+    parameters:
+      disbandMac:
+        $ref: '#/components/parameters/disbandMac'
+    subscribe:
+      summary: Inform about environmental conditions of a particular band.
+      operationId: receiveDisbandPressure
+      traits:
+        - $ref: '#/components/operationTraits/mqtt'
+      message:
+        $ref: '#/components/messages/disbandMeasureInformation'
+  disbands/action/{disbandMac}/temperature:
+    description: The topic on which measure values may be produced and consumed.
+    parameters:
+      disbandMac:
+        $ref: '#/components/parameters/disbandMac'
+    subscribe:
+      summary: Inform about environmental conditions of a particular band.
+      operationId: receiveDisbandTemperature
+      traits:
+        - $ref: '#/components/operationTraits/mqtt'
+      message:
+        $ref: '#/components/messages/disbandMeasureInformation'
+  disbands/action/{userId}/pair:
+    description: The topic on which pair the band
+    parameters:
+      userId:
+        $ref: '#/components/parameters/userId'
+    subscribe:
+      summary: Pair the band with the app account
+      operationId: pairBand
+      traits:
+        - $ref: '#/components/operationTraits/mqtt'
+      message:
+        $ref: '#/components/messages/pairDisbandInformation'
+  disbeacs/action/{userId}/pair:
+    description: The topic on which pair the disbeac
+    parameters:
+      userId:
+        $ref: '#/components/parameters/userId'
+    subscribe:
+      summary: Pair the disbeac with the app account and band
+      operationId: pairDisebac
+      traits:
+        - $ref: '#/components/operationTraits/mqtt'
+      message:
+        $ref: '#/components/messages/pairDisbeacInformation'
+  disbeacs/action/{disbeacMac}/location:
+    description: The topic on which location may be produced and consumed
+    parameters:
+      disbeacMac:
+        $ref: '#/components/parameters/disbeacMac'
+    subscribe:
+      summary: Inform about the location of the disbeac
+      operationId: receivedDisbeacLocation
+      traits:
+        - $ref: '#/components/operationTraits/mqtt'
+      message:
+        $ref: '#/components/messages/disbeacLocationInformation'
+  disbands/event/{disbandMac}/sync:
+    description: The topic on which sync the disband
+    parameters:
+      disbandMac:
+        $ref: '#/components/parameters/disbandMac'
+    publish:
+      operationId: sync
+      traits:
+        - $ref: '#/components/operationTraits/mqtt'
+      message:
+        $ref: '#/components/messages/disbandSyncInformation'
+  disbands/event/{disbandMac}/sync/alarm:
+    description: The topic on which sync the new alarm into the disband
+    parameters:
+      disbandMac:
+        $ref: '#/components/parameters/disbandMac'
+    publish:
+      operationId: syncAlarm
+      traits:
+        - $ref: '#/components/operationTraits/mqtt'
+      message:
+        $ref: '#/components/messages/disbandAlarmInformation'
+  disbands/event/{disbandMac}/sync/measure-times:
+    description: >-
+      The topic on which sync the new configuration about the measure times into
+      a particular disband
+    parameters:
+      disbandMac:
+        $ref: '#/components/parameters/disbandMac'
+    publish:
+      operationId: syncMeasureTimes
+      traits:
+        - $ref: '#/components/operationTraits/mqtt'
+      message:
+        $ref: '#/components/messages/disbandMeasureTimesInformation'
+  disbeacs/event/{disbeacMac}/active/{disbandMac}:
+    description: >-
+      The topic where inform if a particular disbeac is active to a particular
+      disband
+    parameters:
+      disbeacMac:
+        $ref: '#/components/parameters/disbeacMac'
+      disbandMac:
+        $ref: '#/components/parameters/disbandMac'
+    publish:
+      operationId: disbeacActive
+      traits:
+        - $ref: '#/components/operationTraits/mqtt'
+      message:
+        $ref: '#/components/messages/disbeacActive'
+  disbands/event/{disbandMac}/vibrate:
+    parameters:
+      disbandMac:
+        $ref: '#/components/parameters/disbandMac'
+    publish:
+      operationId: disbandVibrate
+      traits:
+        - $ref: '#/components/operationTraits/mqtt'
+      message:
+        $ref: '#/components/messages/disbandVibrate'
+components:
+  messages:
+    disbandMeasureInformation:
+      name: disbandMeasureInformation
+      title: Disband measure information
+      summary: Inform about environmental band conditions of a particular band.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        $ref: '#/components/schemas/disbandMeasureInformationPayload'
+    disbandLightningInformation:
+      name: disbandLightningInformation
+      title: Disband lightning information
+      summary: Inform about environmental band conditions of a particular band.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        $ref: '#/components/schemas/disbandLightningInformationPayload'
+    pairDisbandInformation:
+      name: pairDisbandInformation
+      title: Pair disband information
+      summary: The account information to which pair the band
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        $ref: '#/components/schemas/pairDisbandInformationPayload'
+    pairDisbeacInformation:
+      name: pairDisbeacInformation
+      title: Pair disband information
+      summary: The account information to which pair the band
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        $ref: '#/components/schemas/pairDisbeacInformationPayload'
+    disbeacLocationInformation:
+      name: disbeacLocationInformation
+      title: Disbeac location
+      summary: Inform about the location of a particular disbeac
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        $ref: '#/components/schemas/disbeacLocationInformationPayload'
+    disbandSyncInformation:
+      name: disbandSyncInformation
+      title: Disband Sync information
+      summary: Inform about the new confgiuration of a particular disband
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        $ref: '#/components/schemas/disbandSyncInformationPayload'
+    disbandAlarmInformation:
+      name: disbandAlarmInformation
+      title: Disband alarm information
+      summary: Inform about the new alarm of a particular disband
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        $ref: '#/components/schemas/disbandAlarmInformationPayload'
+    disbandMeasureTimesInformation:
+      name: disbandMeasureTimeInformation
+      title: Disband measure time information
+      summary: Inform about the new measure time of a particular disband
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        $ref: '#/components/schemas/disbandMeasureTimesInformationPayload'
+    disbeacActive:
+      name: disbeacActive
+      title: Disbeac is active
+      summary: Whether the disbeac is active or not
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        type: boolean
+    disbandVibrate:
+      name: disbandVibrate
+      title: Disband vibrate
+      summary: Whether the disband have to vibrate
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        type: boolean
+  schemas:
+    disbandMeasureInformationPayload:
+      type: object
+      properties:
+        data:
+          type: number
+        sentAt:
+          $ref: '#/components/schemas/sentAt'
+    disbandLightningInformationPayload:
+      type: object
+      properties:
+        lightning:
+          type: number
+        redLightning:
+          type: number
+        greenLightning:
+          type: number
+        blueLightning:
+          type: number
+        sentAt:
+          $ref: '#/components/schemas/sentAt'
+    pairDisbandInformationPayload:
+      type: object
+      properties:
+        model:
+          type: string
+        version:
+          type: string
+        userId:
+          type: string
+        sentAt:
+          $ref: '#/components/schemas/sentAt'
+    pairDisbeacInformationPayload:
+      type: object
+      properties:
+        model:
+          type: string
+        version:
+          type: string
+        userId:
+          type: string
+        sentAt:
+          $ref: '#/components/schemas/sentAt'
+    disbeacLocationInformationPayload:
+      type: object
+      properties:
+        latitude:
+          type: string
+        longitude:
+          type: string
+        sentAt:
+          $ref: '#/components/schemas/sentAt'
+    disbandSyncInformationPayload:
+      type: object
+      properties:
+        measures:
+          type: object
+          additionalProperties:
+            type: object
+        sentAt:
+          $ref: '#/components/schemas/sentAt'
+    disbandAlarmInformationPayload:
+      type: object
+      properties:
+        date:
+          type: number
+          format: int64
+        isRepetition:
+          type: boolean
+        repetitionWeekDays:
+          type: string
+        sentAt:
+          $ref: '#/components/schemas/sentAt'
+    disbandMeasureTimesInformationPayload:
+      type: object
+      properties:
+        sensors:
+          type: object
+          additionalProperties:
+            type: number
+        sentAt:
+          $ref: '#/components/schemas/sentAt'
+    sentAt:
+      type: number
+      format: int64
+      description: Date and time when the message was sent.
+  parameters:
+    disbandMac:
+      description: The ID of the disband.
+      schema:
+        type: string
+    disbeacMac:
+      description: The ID of the disbeac.
+      schema:
+        type: string
+    userId:
+      description: The userId of the app account
+      schema:
+        type: string
+  messageTraits:
+    commonHeaders:
+      headers:
+        type: object
+        properties:
+          my-app-header:
+            type: integer
+            minimum: 0
+            maximum: 100
+  operationTraits:
+    mqtt:
+      bindings:
+        mqtt:
+          qos: 1

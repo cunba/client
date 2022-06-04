@@ -20,7 +20,7 @@ def getConfig():
 def main():
 
     disbeacMac = ''
-    disbandMac = connection = ConnectRaspberryTilebox()
+    disbandMac = ConnectRaspberryTilebox()
 
     logging.basicConfig(level=logging.INFO)
     logging.info('Start of main.')

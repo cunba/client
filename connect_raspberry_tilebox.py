@@ -81,7 +81,7 @@ SCANNING_TIME_s = 5
 # Number of notifications to get before disabling them.
 NOTIFICATIONS = 1
 TILEBOX_MAC = 'C0:50:08:32:26:56'
-disbandMeasureInformationPayload = DisbandMeasureInformationPayload()
+disbandMeasureInformationPayload = DisbandMeasureInformationPayload(0, '', 0)
 
 # FUNCTIONS
 
@@ -178,6 +178,7 @@ class ConnectRaspberryTilebox:
     def __init__(self):
         self.device = None
         self.features = None
+        self.bluetooth_connection()
 
     def bluetooth_connection(self):
 
@@ -218,7 +219,7 @@ class ConnectRaspberryTilebox:
         if not self.device.connect():
             print('Connection failed.\n')
         else:
-            disbandMeasureInformationPayload.set_attribute('mac', self.device.get_tag())
+            disbandMeasureInformationPayload.disbandMac = self.device.get_tag()
         
         self.features = self.device.get_features()
 

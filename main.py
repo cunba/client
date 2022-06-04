@@ -24,7 +24,7 @@ def main():
     connect_raspberry_tilebox = ConnectRaspberryTilebox()
     device = connect_raspberry_tilebox.bluetooth_connection()
     features = device.get_features()
-    disbandMac = device.get_tag()
+    disbandMac = device.get_tag().upper()
     disbandMacToTopic = ConvertMac().mac_to_string(device.get_tag().upper())
 
     logging.basicConfig(level=logging.INFO)

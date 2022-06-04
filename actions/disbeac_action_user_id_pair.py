@@ -6,16 +6,15 @@ from utils.topics import TopicsPublications
 
 class DisbeacActionPair:
 
-    def __init__(self, config):
+    def __init__(self, config, topic):
         self.action = Messaging(config)
+        self.topic = topic
 
     def create_payload(self, mac, model, version, userId):
         payload = PairDisbeacInformationPayload(mac, model, version, userId, math.trunc(time.time()))
         return payload.to_json()
 
     def public_measure(self, mac, model, version, userId):
-        topic = str(TopicsPublications.DISBEACS_ACTION_USER_ID_PAIR)
-        topic = topic.format(userId = userId)
         payloadJson = self.create_payload(mac, model, version, userId)
-        self.action.publish(topic, payloadJson)
+        self.action.publish(self.topic, payloadJson)
     

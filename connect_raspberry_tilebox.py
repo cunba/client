@@ -161,6 +161,9 @@ class MyFeatureListener(FeatureListener):
     _notifications = 0
     """Counting notifications to print only the desired ones."""
 
+    def __init__(self, action):
+        self.action = action
+
     #
     # To be called whenever the feature updates its data.
     #
@@ -170,15 +173,17 @@ class MyFeatureListener(FeatureListener):
     def on_update(self, feature, sample):
         if self._notifications < NOTIFICATIONS:
             self._notifications += 1
-            disbandMeasureInformationPayload.set_attribute('data', sample.get_data()[0])
-            disbandMeasureInformationPayload.set_attribute('date', math.trunc(time.time()))
+            print(str(feature))
+            print(sample.get_date()[0])
+            self.action.public_measure(sample.get_date()[0], TILEBOX_MAC)
+            # disbandMeasureInformationPayload.set_attribute('data', sample.get_data()[0])
+            # disbandMeasureInformationPayload.set_attribute('date', math.trunc(time.time()))
 
 class ConnectRaspberryTilebox:
 
-    def __init__(self):
-        self.device = None
-        self.features = None
-        self.bluetooth_connection()
+    # def __init__(self):
+        # self.device = None
+        # self.features = None
 
     def bluetooth_connection(self):
 
@@ -221,30 +226,30 @@ class ConnectRaspberryTilebox:
         else:
             disbandMeasureInformationPayload.disbandMac = self.device.get_tag()
         
-        self.features = self.device.get_features()
+        # self.features = self.device.get_features()
+        return self.device
 
-    def get_feature(self):
+    def get_feature(self, feature, action):
         # Getting features.
-        for feature in self.features:
-            # Enabling notifications.
-            feature_listener = MyFeatureListener()
-            feature.add_listener(feature_listener)
-            self.device.enable_notifications(feature)
-            # Handling audio case (both audio features have to be enabled).
-            # if isinstance(feature, FeatureAudioADPCM):
-            #     audio_sync_feature_listener = MyFeatureListener()
-            #     audio_sync_feature.add_listener(audio_sync_feature_listener)
-            #     device.enable_notifications(audio_sync_feature)
-            # elif isinstance(feature, FeatureAudioADPCMSync):
-            #     audio_feature_listener = MyFeatureListener()
-            #     audio_feature.add_listener(audio_feature_listener)
-            #     device.enable_notifications(audio_feature)
+        # Enabling notifications.
+        feature_listener = MyFeatureListener(action)
+        feature.add_listener(feature_listener)
+        self.device.enable_notifications(feature)
+        # Handling audio case (both audio features have to be enabled).
+        # if isinstance(feature, FeatureAudioADPCM):
+        #     audio_sync_feature_listener = MyFeatureListener()
+        #     audio_sync_feature.add_listener(audio_sync_feature_listener)
+        #     device.enable_notifications(audio_sync_feature)
+        # elif isinstance(feature, FeatureAudioADPCMSync):
+        #     audio_feature_listener = MyFeatureListener()
+        #     audio_feature.add_listener(audio_feature_listener)
+        #     device.enable_notifications(audio_feature)
 
-            # Getting notifications.
-            notifications = 0
-            while notifications < NOTIFICATIONS:
-                if self.device.wait_for_notifications(0.05):
-                    notifications += 1
+        # Getting notifications.
+        notifications = 0
+        while notifications < NOTIFICATIONS:
+            if self.device.wait_for_notifications(0.05):
+                notifications += 1
 
 
             

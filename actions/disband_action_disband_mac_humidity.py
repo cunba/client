@@ -6,16 +6,15 @@ from utils.topics import TopicsPublications
 
 class DisbandActionHumidity:
 
-    def __init__(self, config):
+    def __init__(self, config, topic):
         self.action = Messaging(config)
+        self.topic = topic
 
     def create_payload(self, data, disbandMac):
         payload = DisbandMeasureInformationPayload(data, disbandMac, math.trunc(time.time()))
         return payload.to_json()
 
     def public_measure(self, data, disbandMac):
-        topic = str(TopicsPublications.DISBANDS_ACTION_DISBAND_MAC_HUMIDITY)
-        topic = topic.format(disbandMac = disbandMac)
         payloadJson = self.create_payload(data, disbandMac)
-        self.action.publish(topic, payloadJson)
+        self.action.publish(self.topic, payloadJson)
     

@@ -20,7 +20,12 @@ def getConfig():
 def main():
 
     disbeacMac = ''
-    disbandMac = ConnectRaspberryTilebox()
+    userId = ''
+    connect_raspberry_tilebox = ConnectRaspberryTilebox()
+    device = connect_raspberry_tilebox.bluetooth_connection()
+    features = device.get_features()
+    disbandMac = device.get_tag().upper()
+    print(disbandMac)
 
     logging.basicConfig(level=logging.INFO)
     logging.info('Start of main.')
@@ -28,16 +33,46 @@ def main():
 
     # Creating the messaging for publications
     
-    disband_action_ambient_noise = DisbandActionAmbientNoise(config)
-    disband_action_heart_rate = DisbandActionHeartRate(config)
-    disband_action_humidity = DisbandActionHumidity(config)
-    disband_action_lightning = DisbandActionLightning(config)
-    disband_action_oxygen = DisbandActionOxygen(config)
-    disband_action_pressure = DisbandActionPressure(config)
-    disband_action_temperature = DisbandActionTemperature(config)
-    disband_action_pair = DisbandActionPair(config)
-    disbeac_action_location = DisbeacActionLocation(config)
-    disbeac_action_pair = DisbeacActionPair(config)
+    topic = str(TopicsPublications.DISBANDS_ACTION_DISBAND_MAC_AMBIENT_NOISE)
+    topic = topic.format(disbandMac = disbandMac)
+    disband_action_ambient_noise = DisbandActionAmbientNoise(config, topic)
+
+    topic = str(TopicsPublications.DISBANDS_ACTION_DISBAND_MAC_HEART_RATE)
+    topic = topic.format(disbandMac = disbandMac)
+    disband_action_heart_rate = DisbandActionHeartRate(config, topic)
+
+    topic = str(TopicsPublications.DISBANDS_ACTION_DISBAND_MAC_HUMIDITY)
+    topic = topic.format(disbandMac = disbandMac)
+    disband_action_humidity = DisbandActionHumidity(config, topic)
+
+    topic = str(TopicsPublications.DISBANDS_ACTION_DISBAND_MAC_LIGHTNING)
+    topic = topic.format(disbandMac = disbandMac)
+    disband_action_lightning = DisbandActionLightning(config, topic)
+
+    topic = str(TopicsPublications.DISBANDS_ACTION_DISBAND_MAC_OXYGEN)
+    topic = topic.format(disbandMac = disbandMac)
+    disband_action_oxygen = DisbandActionOxygen(config, topic)
+
+    topic = str(TopicsPublications.DISBANDS_ACTION_DISBAND_MAC_PRESSURE)
+    topic = topic.format(disbandMac = disbandMac)
+    disband_action_pressure = DisbandActionPressure(config, topic)
+
+    topic = str(TopicsPublications.DISBANDS_ACTION_DISBAND_MAC_PRESSURE)
+    topic = topic.format(disbandMac = disbandMac)
+    disband_action_temperature = DisbandActionTemperature(config, topic)
+
+
+    topic = str(TopicsPublications.DISBANDS_ACTION_USER_ID_PAIR)
+    topic = topic.format(userId = userId)
+    disband_action_pair = DisbandActionPair(config, topic)
+
+    topic = str(TopicsPublications.DISBEACS_ACTION_DISBEAC_MAC_LOCATION)
+    topic = topic.format(disbeacMac = disbeacMac)
+    disbeac_action_location = DisbeacActionLocation(config, topic)
+
+    topic = str(TopicsPublications.DISBEACS_ACTION_USER_ID_PAIR)
+    topic = topic.format(userId = userId)
+    disbeac_action_pair = DisbeacActionPair(config, topic)
 
     # Subscribing to the topics
 
@@ -62,6 +97,9 @@ def main():
     DisbeacEventDisbandMacActiveDisbandMac(config, disbeac_event_active_topic)
 
     while (True):
+        for feature in features:
+            connect_raspberry_tilebox.get_feature(feature)
+
         time.sleep(1)
 
 if __name__ == '__main__':

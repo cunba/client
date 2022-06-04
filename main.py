@@ -24,7 +24,8 @@ def main():
     connect_raspberry_tilebox = ConnectRaspberryTilebox()
     device = connect_raspberry_tilebox.bluetooth_connection()
     features = device.get_features()
-    disbandMac = ConvertMac().mac_to_string(device.get_tag().upper())
+    disbandMac = device.get_tag()
+    disbandMacToTopic = ConvertMac().mac_to_string(device.get_tag().upper())
 
     logging.basicConfig(level=logging.INFO)
     logging.info('Start of main.')
@@ -33,31 +34,31 @@ def main():
     # Creating the messaging for publications
     
     topic = 'disbands/action/{disbandMac}/ambient-noise'
-    topicFormat = topic.format(disbandMac = disbandMac)
+    topicFormat = topic.format(disbandMac = disbandMacToTopic)
     disband_action_ambient_noise = DisbandActionAmbientNoise(config, topicFormat)
 
     topic = 'disbands/action/{disbandMac}/heart-rate'
-    topicFormat = topic.format(disbandMac = disbandMac)
+    topicFormat = topic.format(disbandMac = disbandMacToTopic)
     disband_action_heart_rate = DisbandActionHeartRate(config, topicFormat)
 
     topic = 'disbands/action/{disbandMac}/humidity'
-    topicFormat = topic.format(disbandMac = disbandMac)
+    topicFormat = topic.format(disbandMac = disbandMacToTopic)
     disband_action_humidity = DisbandActionHumidity(config, topicFormat)
 
     topic = 'disbands/action/{disbandMac}/lightning'
-    topicFormat = topic.format(disbandMac = disbandMac)
+    topicFormat = topic.format(disbandMac = disbandMacToTopic)
     disband_action_lightning = DisbandActionLightning(config, topicFormat)
 
     topic = 'disbands/action/{disbandMac}/oxygen'
-    topicFormat = topic.format(disbandMac = disbandMac)
+    topicFormat = topic.format(disbandMac = disbandMacToTopic)
     disband_action_oxygen = DisbandActionOxygen(config, topicFormat)
 
     topic = 'disbands/action/{disbandMac}/pressure'
-    topicFormat = topic.format(disbandMac = disbandMac)
+    topicFormat = topic.format(disbandMac = disbandMacToTopic)
     disband_action_pressure = DisbandActionPressure(config, topicFormat)
 
     topic = 'disbands/action/{disbandMac}/temperature'
-    topicFormat = topic.format(disbandMac = disbandMac)
+    topicFormat = topic.format(disbandMac = disbandMacToTopic)
     disband_action_temperature = DisbandActionTemperature(config, topicFormat)
 
     topic = 'disbands/action/{userId}/pair'
@@ -75,24 +76,27 @@ def main():
     # Subscribing to the topics
 
     topic = 'disbands/event/{disbandMac}/sync'
-    topicFormat = topic.format(disbandMac = disbandMac)
+    topicFormat = topic.format(disbandMac = disbandMacToTopic)
     DisbandEventDisbandMacSync(config, topicFormat)
 
     topic = 'disbands/event/{disbandMac}/sync/alarm'
-    topicFormat = topic.format(disbandMac = disbandMac)
+    topicFormat = topic.format(disbandMac = disbandMacToTopic)
     DisbandEventDisbandMacSyncAlarm(config, topicFormat)
 
     topic = 'disbands/event/{disbandMac}/sync/measure-times'
-    topicFormat = topic.format(disbandMac = disbandMac)
+    topicFormat = topic.format(disbandMac = disbandMacToTopic)
     DisbandEventDisbandMacSyncMeasureTimes(config, topicFormat)
 
     topic = 'disbands/event/{disbandMac}/vibrate'
-    topicFormat = topic.format(disbandMac = disbandMac)
+    topicFormat = topic.format(disbandMac = disbandMacToTopic)
     DisbandEventDisbandMacVibrate(config, topicFormat)
 
     topic = 'disbeacs/event/{disbeacMac}/active/{disbandMac}'
-    topicFormat = topic.format(disbeacMac = disbeacMac, disbandMac = disbandMac)
+    topicFormat = topic.format(disbeacMac = disbeacMac, disbandMac = disbandMacToTopic)
     DisbeacEventDisbandMacActiveDisbandMac(config, topicFormat)
+
+    # Pairing the tilebox
+    disband_action_pair.public_disband(disbandMac, 'TILEBOX', '0.1', USER_ID)
 
     while (True):
         for feature in features:

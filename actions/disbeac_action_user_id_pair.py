@@ -14,7 +14,7 @@ class DisbeacActionPair:
         payload = PairDisbeacInformationPayload(mac, model, version, userId, Timestamp().get_now_timestamp_miliseconds())
         return payload.to_json()
 
-    def public_measure(self, mac, model, version, userId):
+    def public_disbeac(self, mac, model, version, userId):
         payloadJson = self.create_payload(mac, model, version, userId)
         self.action.publish(self.topic, payloadJson)
     

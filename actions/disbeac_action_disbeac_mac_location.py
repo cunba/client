@@ -4,7 +4,7 @@ from models.messaging import Messaging
 from payloads.disbeac_location_information_payload import DisbeacLocationInformationPayload
 from utils.topics import TopicsPublications
 
-class DisbeacsActionTemperature:
+class DisbeacActionLocation:
 
     def __init__(self, config):
         self.action = Messaging(config)

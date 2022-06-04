@@ -1,8 +1,8 @@
 import logging
 from models.messaging import Messaging
-from payloads.disband_sync_information_payload import DisbandSyncInformationPayload
+from payloads.disband_alarm_information_payload import DisbandAlarmInformationPayload
 
-class DisbandEventDisbandMacSync:
+class DisbandEventDisbandMacSyncAlarm:
     def __init__(self, config, topic):
         self.messenger = Messaging(config, topic, self.event)
         self.messenger.loop_start()
@@ -13,8 +13,8 @@ class DisbandEventDisbandMacSync:
         print(str(userdata))
         print(str(msg))
         logging.info('Received json: ' + jsonString)
-        disbandSyncInformationPayload = DisbandSyncInformationPayload.from_json(jsonString)
-        self.load_tilebox(disbandSyncInformationPayload)
+        disbandAlarmInformationPayload = DisbandAlarmInformationPayload.from_json(jsonString)
+        self.load_tilebox(disbandAlarmInformationPayload)
 
     def load_tilebox(self, payload):
         # cargar codigo en el micro

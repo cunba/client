@@ -2,6 +2,7 @@ import math
 import time
 from models.messaging import Messaging
 from payloads.disbeac_location_information_payload import DisbeacLocationInformationPayload
+from utils.timestamp import Timestamp
 
 class DisbeacActionLocation:
 
@@ -10,7 +11,7 @@ class DisbeacActionLocation:
         self.topic = topic
 
     def create_payload(self, data, disbeacMac):
-        payload = DisbeacLocationInformationPayload(data, disbeacMac, math.trunc(time.time()))
+        payload = DisbeacLocationInformationPayload(data, disbeacMac, Timestamp().get_now_timestamp_miliseconds())
         return payload.to_json()
 
     def public_measure(self, data, disbeacMac):

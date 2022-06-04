@@ -2,6 +2,7 @@ import math
 import time
 from models.messaging import Messaging
 from payloads.disband_measure_information_payload import DisbandMeasureInformationPayload
+from utils.timestamp import Timestamp
 
 class DisbandActionHumidity:
 
@@ -10,7 +11,7 @@ class DisbandActionHumidity:
         self.topic = topic
 
     def create_payload(self, data, disbandMac):
-        payload = DisbandMeasureInformationPayload(data, disbandMac, math.trunc(time.time()))
+        payload = DisbandMeasureInformationPayload(data, disbandMac, Timestamp().get_now_timestamp_miliseconds())
         return payload.to_json()
 
     def public_measure(self, data, disbandMac):

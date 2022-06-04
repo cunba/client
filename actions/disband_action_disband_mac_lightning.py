@@ -2,13 +2,12 @@ import math
 import time
 from models.messaging import Messaging
 from payloads.disband_lightning_information_payload import DisbandLightningInformationPayload
-from utils.topics import TopicsPublications
 
 class DisbandActionLightning:
 
     def __init__(self, config, topic):
         self.action = Messaging(config)
-        self.topic
+        self.topic = topic
 
     def create_payload(self, lightningData, redData, greenData, blueData, disbandMac):
         payload = DisbandLightningInformationPayload(lightningData, redData, greenData, blueData, disbandMac, math.trunc(time.time()))

@@ -173,11 +173,8 @@ class MyFeatureListener(FeatureListener):
     def on_update(self, feature, sample):
         if self._notifications < NOTIFICATIONS:
             self._notifications += 1
-            print(str(feature))
-            print(sample.get_date()[0])
-            self.action.public_measure(sample.get_date()[0], TILEBOX_MAC)
-            # disbandMeasureInformationPayload.set_attribute('data', sample.get_data()[0])
-            # disbandMeasureInformationPayload.set_attribute('date', math.trunc(time.time()))
+            if sample.get_data()[0] > 0:
+                self.action.public_measure(sample.get_data()[0], TILEBOX_MAC)
 
 class ConnectRaspberryTilebox:
 

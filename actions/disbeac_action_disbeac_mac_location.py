@@ -2,7 +2,6 @@ import math
 import time
 from models.messaging import Messaging
 from payloads.disbeac_location_information_payload import DisbeacLocationInformationPayload
-from utils.topics import TopicsPublications
 
 class DisbeacActionLocation:
 

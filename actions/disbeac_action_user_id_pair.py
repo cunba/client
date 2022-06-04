@@ -2,7 +2,6 @@ import math
 import time
 from models.messaging import Messaging
 from payloads.pair_disbeac_information_payload import PairDisbeacInformationPayload
-from utils.topics import TopicsPublications
 
 class DisbeacActionPair:
 

@@ -113,21 +113,21 @@ def main():
     print()
 
     # Pairing the tilebox
-    disband_action_pair.public_disband(disbandMac, 'TILEBOX', '0.1', USER_ID)
+    disband_action_pair.public_disband(disbandMac, 'TILEBOX', 'version 1', USER_ID)
 
     while (True):
-        # for feature in features:
-        #     switch = {
-        #         'ambient-noise': disband_action_ambient_noise,
-        #         'heart-rate': disband_action_heart_rate,
-        #         'humidity': disband_action_humidity,
-        #         'lightning': disband_action_lightning,
-        #         'oxygen': disband_action_oxygen,
-        #         'pressure': disband_action_pressure,
-        #         'temperature': disband_action_temperature
-        #     }
-        #     action = switch.get(feature.get_name().lower(), 'Invalid feature')
-        #     connect_raspberry_tilebox.get_feature(feature, action)
+        for feature in features:
+            switch = {
+                'ambient-noise': disband_action_ambient_noise,
+                'heart-rate': disband_action_heart_rate,
+                'humidity': disband_action_humidity,
+                'lightning': disband_action_lightning,
+                'oxygen': disband_action_oxygen,
+                'pressure': disband_action_pressure,
+                'temperature': disband_action_temperature
+            }
+            action = switch.get(feature.get_name().lower(), 'Invalid feature')
+            connect_raspberry_tilebox.get_feature(feature, action)
 
         time.sleep(5)
 

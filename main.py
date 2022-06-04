@@ -74,25 +74,25 @@ def main():
 
     # Subscribing to the topics
 
-    disband_event_sync_topic = 'disbands/event/{disbandMac}/sync'
-    disband_event_sync_topic.format(disbandMac = disbandMac)
-    DisbandEventDisbandMacSync(config, disband_event_sync_topic)
+    topic = 'disbands/event/{disbandMac}/sync'
+    topicFormat = topic.format(disbandMac = disbandMac)
+    DisbandEventDisbandMacSync(config, topicFormat)
 
-    disband_event_sync_alarm_topic = 'disbands/event/{disbandMac}/sync/alarm'
-    disband_event_sync_alarm_topic.format(disbandMac = disbandMac)
-    DisbandEventDisbandMacSyncAlarm(config, disband_event_sync_alarm_topic)
+    topic = 'disbands/event/{disbandMac}/sync/alarm'
+    topicFormat = topic.format(disbandMac = disbandMac)
+    DisbandEventDisbandMacSyncAlarm(config, topicFormat)
 
-    disband_event_sync_measure_times_topic = 'disbands/event/{disbandMac}/sync/measure-times'
-    disband_event_sync_measure_times_topic.format(disbandMac = disbandMac)
-    DisbandEventDisbandMacSyncMeasureTimes(config, disband_event_sync_measure_times_topic)
+    topic = 'disbands/event/{disbandMac}/sync/measure-times'
+    topicFormat = topic.format(disbandMac = disbandMac)
+    DisbandEventDisbandMacSyncMeasureTimes(config, topicFormat)
 
-    disband_event_vibrate_topic = 'disbands/event/{disbandMac}/vibrate'
-    disband_event_vibrate_topic.format(disbandMac = disbandMac)
-    DisbandEventDisbandMacVibrate(config, disband_event_vibrate_topic)
+    topic = 'disbands/event/{disbandMac}/vibrate'
+    topicFormat = topic.format(disbandMac = disbandMac)
+    DisbandEventDisbandMacVibrate(config, topicFormat)
 
-    disbeac_event_active_topic = 'disbeacs/event/{disbeacMac}/active/{disbandMac}'
-    disbeac_event_active_topic.format(disbeacMac = disbeacMac, disbandMac = disbandMac)
-    DisbeacEventDisbandMacActiveDisbandMac(config, disbeac_event_active_topic)
+    topic = 'disbeacs/event/{disbeacMac}/active/{disbandMac}'
+    topicFormat = topic.format(disbeacMac = disbeacMac, disbandMac = disbandMac)
+    DisbeacEventDisbandMacActiveDisbandMac(config, topicFormat)
 
     while (True):
         for feature in features:

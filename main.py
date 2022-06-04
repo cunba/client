@@ -3,11 +3,12 @@ import configparser
 import logging
 import time
 from events import *
-from events import disband_event_disband_mac_sync
 from actions import *
 
 from connect_raspberry_tilebox import ConnectRaspberryTilebox
 from utils.convert_mac import ConvertMac
+
+USER_ID = "c3ae7388-f3c8-43b9-84ea-eba374b72dcd"
 
 # Config has the connection properties.
 def getConfig():
@@ -20,7 +21,6 @@ def getConfig():
 def main():
 
     disbeacMac = ''
-    userId = ''
     connect_raspberry_tilebox = ConnectRaspberryTilebox()
     device = connect_raspberry_tilebox.bluetooth_connection()
     features = device.get_features()
@@ -61,7 +61,7 @@ def main():
     disband_action_temperature = DisbandActionTemperature(config, topicFormat)
 
     topic = 'disbands/action/{userId}/pair'
-    topicFormat = topic.format(userId = userId)
+    topicFormat = topic.format(userId = USER_ID)
     disband_action_pair = DisbandActionPair(config, topicFormat)
 
     topic = 'disbeacs/action/{disbeacMac}/location'
@@ -69,7 +69,7 @@ def main():
     disbeac_action_location = DisbeacActionLocation(config, topicFormat)
 
     topic = 'disbeacs/action/{userId}/pair'
-    topicFormat = topic.format(userId = userId)
+    topicFormat = topic.format(userId = USER_ID)
     disbeac_action_pair = DisbeacActionPair(config, topicFormat)
 
     # Subscribing to the topics

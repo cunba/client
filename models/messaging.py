@@ -34,7 +34,6 @@ class Messaging:
             
         port = int(config.get('port', '1883'))
         host = config.get('host', defaultHost)
-        print("Host: ", host, "port: ", port)
 
         if host is None:
             raise Exception("Host must be defined in the config file or in the servers section.")

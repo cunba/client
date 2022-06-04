@@ -15,6 +15,7 @@ class DisbandActionPair:
         return payload.to_json()
 
     def public_disband(self, mac, model, version, userId):
+        print(self.topic)
         payloadJson = self.create_payload(mac, model, version, userId)
         self.action.publish(self.topic, payloadJson)
     
